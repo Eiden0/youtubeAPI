@@ -34,7 +34,7 @@ To get all the data from the mongoDB Database
 ### Search
 File: `/routes/searchVideo.js` <br /> 
 GET `http://localhost:3000/search` <br /> 
-API Get End Point : `http://localhost:1337/searchVideo?video_title=kohli`
+API Get End Point : `http://localhost:1337/search?video_title=kohli`
 
 ### close DB connection
 File: `/scheduler.js`  <br />
