@@ -1,7 +1,7 @@
 const config = {
     KEY:{
-        KEY1 : "AIzaSyBMWHaGXFWQI0Cw0VbVDS7k0ircQpi-5s8",
-        KEY2 : "AIzaSyAyFOxtcFuDfqEyQqa7Xkhgn73Rn9iQM04", //you can add multiple keys here to increase our quota
+        KEY1 : "enter your key1 here",
+        KEY2 : "enter your key2 here", //you can add multiple keys here to increase our quota
     },
     SEARCH: {
         URL_END_POINT: "https://www.googleapis.com/youtube/v3/search",
