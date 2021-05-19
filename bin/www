@@ -1,6 +1,6 @@
 const
     http   = require('http'),
-    schedule = require('../scheduler')
+    schedule = require('../scheduler');
     app = require('../app');
 try {
     console.log("Staring storing job");

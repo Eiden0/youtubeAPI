@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const SearchVideo = require('./routes/searchVideo');
+const closeInterval = require('./scheduler').closeInterval
 var app = express();
 
 
@@ -19,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// app.get('/getAll', require('./routes/getAll'));
+app.get('/getAll', require('./routes/getAll'));
 app.use('/search', async (req, res) => {
   try {
       let video_title = req.query.video_title;
@@ -36,6 +37,11 @@ app.use('/search', async (req, res) => {
 
 app.get('/', function(req, res, next){
   res.render('index', { title:'Youtube API' });
+})
+
+app.get('/close',function(req, res, next){
+  closeInterval();
+  res.send('stopped populating the database')
 })
 
 // catch 404 and forward to error handler

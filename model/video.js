@@ -22,6 +22,17 @@ const videoSchema = new Schema({
 
 let Videos = mongoose.model('videos', videoSchema);
 
+let page = 0;
+const perPage = 10;
+
+const getAllVideos = async (page) => {
+    return Videos.find()
+        .limit(perPage)
+        .skip(perPage * page)
+        .sort({ date: -1 });
+    page++;;
+};
+
 const insert = (doc) => {
     return Videos.create(doc);
 }
@@ -32,13 +43,6 @@ const insertMany = (docsArray) => {
 
 const getLastVideoTime = () => {
     return Videos.findOne().sort({'data.publishTime': -1}).limit(1).select({'data.publishTime': 1}).lean();
-};
-
-const sanitizeQueryString = (queryString) => {
-    if(typeof queryString === 'string') {
-        return queryString.split(/[^A-z 0-9]/).join('').replace(/ +(?= )/g,'');
-    }
-    return '';
 };
 
 function escapeRegex(text) {
@@ -56,5 +60,6 @@ module.exports = {
     insert,
     smartSearchVideo,
     insertMany,
-    getLastVideoTime
+    getLastVideoTime,
+    getAllVideos
 };
