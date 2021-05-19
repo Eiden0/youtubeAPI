@@ -20,6 +20,7 @@ An API for storing and searching Youtube Data
 * MongoDB
 
 ##### The starting point of the application is in `/bin/www`
+##### The homepage of this application is `http://localhost:3000/`
 
 ### Background task
 We have a function  in the file `/background.js` which hits the Youtube Data API, and get all results, and store these results in the database every 2 mins.
