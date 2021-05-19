@@ -34,12 +34,21 @@ const getLastVideoTime = () => {
     return Videos.findOne().sort({'data.publishTime': -1}).limit(1).select({'data.publishTime': 1}).lean();
 };
 
+const sanitizeQueryString = (queryString) => {
+    if(typeof queryString === 'string') {
+        return queryString.split(/[^A-z 0-9]/).join('').replace(/ +(?= )/g,'');
+    }
+    return '';
+};
+
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
 const smartSearchVideo = (video_title) => {
+    const queryString = sanitizeQueryString(video_title);
     const regex = new RegExp(escapeRegex(video_title), 'gi');
+    console.log(regex);
     return Videos.find({'video_title': regex}).lean();
 };
 

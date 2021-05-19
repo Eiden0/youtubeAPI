@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/search', async (req, res) => {
   try {
       let video_title = req.query.video_title;
+      console.log(video_title);
       const result = await SearchVideo.searchVideo(
           video_title
       );
