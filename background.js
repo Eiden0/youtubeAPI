@@ -1,7 +1,9 @@
+console.log('background_task');
 const axios = require('axios');
 const querystring = require('querystring');
 const {insertMany, getLastVideoTime} = require('./model/video');
-const get_api_key = require('./helpers/get_api_keys')
+const getAPIKey = require('./helpers/get_api_keys')
+const config = require('./config/config')
 
 const startVideoMining = async() => {
     let lastVideoTime = await _getLastFetchedRecordTime();
@@ -11,7 +13,6 @@ const startVideoMining = async() => {
 const _getLastFetchedRecordTime = async () => {
     let lastVideoTime = null;
     let lastVideoTimeObj = await getLastVideoTime();
-    console.log(lastVideoTimeObj.data);
     if(lastVideoTimeObj && lastVideoTimeObj.data) {
         lastVideoTime = lastVideoTimeObj.data.publishTime;
     }
@@ -19,17 +20,17 @@ const _getLastFetchedRecordTime = async () => {
 };
 
 const _getMinedVideoData = (lastVideoTime) => {
-    let current_key = get_api_key();
+    const apiKey = getAPIKey();
 
     // GET parameters
     const parameters = {
         part: config.SEARCH.PART,
-        key: current_key,
+        key: apiKey,
         q: config.SEARCH.SEARCH_QUERY,
         type: config.SEARCH.TYPE,
         order: config.SEARCH.ORDER,
         publishedAfter: lastVideoTime,
-        maxResults: config.SEARCH.MAX_RESULTS
+        maxResults: config.SEARCH.LIMIT
     }
     const get_request_args = querystring.stringify(parameters);
 
@@ -37,21 +38,21 @@ const _getMinedVideoData = (lastVideoTime) => {
 
     axios.get(URL)
     .then(function (response) {
-        _saveMinedVideoDetails(response, config.SEARCH.SEARCH_QUERY);
+        _saveMinedVideoDetails(response);
     })
     .catch(function (error) {
         console.log(error);
     });
 }
 
-const _saveMinedVideoDetails = (response, video_title) => {
+const _saveMinedVideoDetails = (response) => {
     const docsArray = [];
     response.data.items.forEach(function (element) {
         const obj = {};
-        obj.video_title = video_title;
-        obj.data = element.snippet;
-        delete obj.data.channelTitle;
-        delete obj.data.liveBroadcastContent;
+        obj.video_title = element.snippet.title;
+        obj.description = element.snippet.description;
+        obj.image = element.snippet.thumbnails.default.url;
+        obj.date = element.snippet.publishedAt;
         docsArray.push(obj);
     });
     console.log("Saving Video Data: ", JSON.stringify(docsArray, null, 4));

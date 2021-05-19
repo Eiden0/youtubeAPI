@@ -1,17 +1,26 @@
-var mongoose = require('mongoose');
-const schema = mongoose.Schema;
-const db = require('../helpers/db').connect
+const connectdb = require('../helpers/db');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const videoSchema = mongoose.Schema({
+connectdb()
+
+const videoSchema = new Schema({
     video_title: {
         type: String,
         required: true
     },
-    video_details: schema.Types.Mixed,
-    createdAt: { type: Date, required: true, default: Date.now }
-}, {strict: false});
+    description: {
+        type: String,
+    },
+    img: {
+        type: String,
+    },
+    date: {
+        type: Date,
+    },
+});
 
-let Videos = db.model('videos', videoSchema);
+let Videos = mongoose.model('videos', videoSchema);
 
 const insert = (doc) => {
     return Videos.create(doc);
@@ -31,7 +40,7 @@ function escapeRegex(text) {
 
 const smartSearchVideo = (video_title) => {
     const regex = new RegExp(escapeRegex(video_title), 'gi');
-    return Videos.find({'data.title': regex}).lean();
+    return Videos.find({'video_title': regex}).lean();
 };
 
 module.exports = {

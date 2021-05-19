@@ -1,17 +1,15 @@
 const config = require('../config/config');
 
-const { API_KEY1, API_KEY2 } = config.SEARCH.KEY;
+const API_KEY1 = config.KEY.KEY1;
+const API_KEY2 = config.KEY.KEY2
 
-const API_KEYS = [
+const YOUTUBE_API_KEYS = [
     `${API_KEY1}`,
     `${API_KEY2}`,
-]; 
-
+];
 let idx = 0;
 
-function key(){
-    idx = (idx + 1) % PI_KEYS.length;
-    return API_KEYS[idx];
-}
-
-module.exports = key;
+module.exports = () => {
+    idx = (idx + 1) % YOUTUBE_API_KEYS.length;
+    return YOUTUBE_API_KEYS[idx];
+};

@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const SearchVideo = require('./routes/searchVideo');
-
-
 var app = express();
 
 
@@ -20,7 +18,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', async (req, res) => {
+
+// app.get('/getAll', require('./routes/getAll'));
+app.use('/search', async (req, res) => {
   try {
       let video_title = req.query.video_title;
       const result = await SearchVideo.searchVideo(
@@ -32,6 +32,10 @@ app.use('/', async (req, res) => {
       res.status(500).send({success: false, msg: 'Failiure', data : err});
   }
 });
+
+app.get('/', function(req, res, next){
+  res.render('index', { title:'Youtube API' });
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

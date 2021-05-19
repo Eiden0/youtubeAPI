@@ -1,30 +1,20 @@
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://eiden:Shibashis*12@cluster0.rupja.mongodb.net/youtube_video?retryWrites=true&w=majority';
+var mongoDB = require('../config/config').db_credentials.MONGO_URI;
 
-const options = {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-};
-
-function connect() {
-  return mongoose.connect(mongoDB, options)
-      .then(() => {
-        console.log('Connected to mongodb');
-      })
-      .catch((err) => {
-        console.log('Couldnt connect to mongodb:', err.message);
-        process.exit(1);
+const connectDB = async () => {
+    try {
+      await mongoose.connect(mongoDB, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
       });
-}
-
-function close() {
-  return mongoose.connection.close();
-}
-
-module.exports = {
-  connect,
-  close,
-};
+      console.log('DB connected');
+    } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
+  };
+  
+  module.exports = connectDB;
