@@ -50,7 +50,7 @@ function escapeRegex(text) {
 };
 
 const smartSearchVideo = (video_title) => {
-    const queryString = sanitizeQueryString(video_title);
+//     const queryString = sanitizeQueryString(video_title);
     const regex = new RegExp(escapeRegex(video_title), 'gi');
     console.log(regex);
     return Videos.find({'video_title': regex}).lean();
