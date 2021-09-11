@@ -13,7 +13,7 @@ const config = {
         LIMIT: 20,
     },
     db_credentials: {
-        MONGO_URI: "mongodb+srv://eiden:Shibashis*12@cluster0.rupja.mongodb.net/youtube_video?retryWrites=true&w=majority"
+        MONGO_URI: "enter your mongo db credentials here"
     },
 }
 module.exports = config;
