@@ -24,7 +24,7 @@ An API for storing and searching Youtube Data
 
 ### Background task
 We have a function  in the file `/background.js` which hits the Youtube Data API, and get all results, and store these results in the database every 2 mins.
-This function is bound to run every 2 min, **and uses multiple API Keys**, through the helper function in `/helpers/get_api_keys.js`
+This function is bound to run every 2 min, **and uses multiple API Keys** in a round robin fashion, through the helper function in `/helpers/get_api_keys.js`
 
 ## Exposed End Points
 ### Get All Videos
